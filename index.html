@@ -232,68 +232,58 @@
       color: #ff0000;
     }
 
-    #game-bgm-panel {
+    #playback-mode-panel {
       margin: 0 0 12px;
       padding: 12px;
       background: #fff;
       border: 1px solid #ddd;
       border-radius: 10px;
     }
-
-    #game-bgm-panel h3 {
-      margin: 0 0 9px;
-      font-size: 15px;
-      text-align: left;
-    }
-
-    .game-bgm-links {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .game-bgm-link {
+    .mode-buttons, #bgm-source-row {
       display: flex;
-      flex-direction: column;
-      gap: 5px;
-      min-width: 0;
-      padding: 10px 12px;
-      border: 1px solid #d8d8d8;
-      border-radius: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .mode-buttons { margin-bottom: 10px; }
+    .mode-btn, .bgm-source {
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      padding: 8px 12px;
+      background: #f7f7f7;
       color: #222;
-      background: #fafafa;
-      text-decoration: none;
-      transition: background .15s, border-color .15s;
-    }
-
-    .game-bgm-link:hover {
-      background: #f0f5ff;
-      border-color: #8aa9df;
-    }
-
-    .game-bgm-link strong {
+      cursor: pointer;
       font-size: 13px;
-      line-height: 1.4;
     }
-
-    .game-bgm-link span {
-      color: #666;
-      font-size: 11px;
-      line-height: 1.4;
+    .mode-btn.selected, .bgm-source.selected {
+      color: #fff;
+      background: #2457a6;
+      border-color: #2457a6;
     }
-
-    .game-bgm-note {
-      margin: 8px 0 0;
-      color: #777;
-      font-size: 11px;
-      line-height: 1.4;
+    .bgm-label { font-size: 12px; font-weight: bold; }
+    #modeHelp { margin: 8px 0 0; color: #666; font-size: 11px; line-height: 1.5; }
+    #bgm-source-row { padding-top: 2px; }
+    #audio-player-host {
+      position: fixed;
+      width: 200px;
+      height: 200px;
+      left: -220px;
+      bottom: 0;
+      overflow: hidden;
+      opacity: .01;
+      pointer-events: none;
     }
-
-    @media (max-width: 900px) {
-      .game-bgm-links {
-        grid-template-columns: 1fr;
-      }
-    }
+    #audio-player-host iframe { width: 200px; height: 200px; }
+    body.music-mode #channel-filter,
+    body.music-mode #search-container { display: none; }
+    body.music-mode #videos-wrapper { display: none; }
+    body.music-mode #music-mode-content { display: block; }
+    #music-mode-content { display: none; flex: 1; overflow: auto; background: white; border-radius: 10px; padding: 14px; }
+    .music-choice { display:flex; align-items:center; gap:14px; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:10px; cursor:pointer; background:#fafafa; }
+    .music-choice img { width:150px; aspect-ratio:16/9; object-fit:cover; border-radius:6px; }
+    .music-choice strong { display:block; margin-bottom:5px; }
+    .music-choice span { color:#666; font-size:12px; }
+    @media(max-width:700px) { .music-choice img { width:110px; } }
 
     #channel-filter {
       margin-bottom: 12px;
@@ -308,39 +298,6 @@
     #channel-filter:focus {
       border-color: #ff0000;
       outline: none;
-    }
-
-    .shorts-options {
-      margin: 0 0 10px;
-      padding: 10px 12px;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-    }
-
-    .shorts-toggle {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: bold;
-    }
-
-    #includeShortsToggle {
-      width: 18px;
-      height: 18px;
-      margin: 0;
-      accent-color: #e62117;
-      cursor: pointer;
-    }
-
-    #shortsHelp {
-      display: block;
-      margin-top: 5px;
-      color: #666;
-      font-size: 12px;
-      line-height: 1.4;
     }
 
     #videos-wrapper {
@@ -629,19 +586,18 @@
       </h2>
 
 
-      <section id="game-bgm-panel" aria-label="ゲームBGM再生リスト">
-        <h3>ゲームBGM再生リスト</h3>
-        <div class="game-bgm-links">
-          <a class="game-bgm-link" href="https://www.youtube.com/playlist?list=PLFko1Qxl8kyd3f5bmYlDAIEMdLE3W6xny" target="_blank" rel="noopener noreferrer">
-            <strong>ゼルダの伝説 時のオカリナ</strong>
-            <span>オリジナルサウンドトラック BGM集</span>
-          </a>
-          <a class="game-bgm-link" href="https://www.youtube.com/results?search_query=%E3%82%BC%E3%83%AB%E3%83%80%E3%81%AE%E4%BC%9D%E8%AA%AC+%E3%83%96%E3%83%AC%E3%82%B9+%E3%82%AA%E3%83%96+%E3%82%B6+%E3%83%AF%E3%82%A4%E3%83%AB%E3%83%89+BGM+%E4%BD%9C%E6%A5%AD%E7%94%A8" target="_blank" rel="noopener noreferrer">
-            <strong>ゼルダの伝説 ブレス オブ ザ ワイルド</strong>
-            <span>BGM・作業用サウンドトラックを検索</span>
-          </a>
+      <section id="playback-mode-panel" aria-label="再生モード">
+        <div class="mode-buttons">
+          <button type="button" id="scenicModeBtn" class="mode-btn selected">絶景映像リスト</button>
+          <button type="button" id="musicModeBtn" class="mode-btn">ゲーム音楽リスト</button>
         </div>
-        <p class="game-bgm-note">※時のオカリナは確認できたYouTube再生リストへ直接移動します。ブレス オブ ザ ワイルドは再生リスト候補の検索結果を開きます。</p>
+        <div id="bgm-source-row">
+          <span class="bgm-label">映像のバックで流す音楽：</span>
+          <button type="button" class="bgm-source selected" data-bgm="oot">ゼルダ 時のオカリナ</button>
+          <button type="button" class="bgm-source" data-bgm="invidia">ゼノブレイド2 インヴィディア</button>
+          <button type="button" id="bgmOffBtn" class="bgm-source">音楽なし</button>
+        </div>
+        <p id="modeHelp">絶景映像を選ぶと、選択中のゲームBGMをバックで再生します。音声の自動再生はブラウザ設定により制限される場合があります。</p>
       </section>
 
       <select id="channel-filter">
@@ -652,14 +608,6 @@
 
       </select>
 
-
-      <div class="shorts-options">
-        <label class="shorts-toggle" for="includeShortsToggle">
-          <input type="checkbox" id="includeShortsToggle" aria-describedby="shortsHelp" checked>
-          ショート動画も含める
-        </label>
-        <small id="shortsHelp">オフにすると、3分以内またはタイトルからショートと推定した動画を除外します。短い通常動画も対象になります。</small>
-      </div>
 
       <div id="search-container">
 
@@ -686,6 +634,19 @@
 
       </div>
 
+      <div id="music-mode-content" aria-label="ゲーム音楽リスト">
+        <h3>ゲーム音楽だけを再生</h3>
+        <div class="music-choice" data-music="oot">
+          <img src="https://i.ytimg.com/vi/rn-4fJBcOaY/hqdefault.jpg" alt="時のオカリナ BGM">
+          <div><strong>ゼルダの伝説 時のオカリナ</strong><span>確認済みのYouTube再生リストを音楽専用で再生</span></div>
+        </div>
+        <div class="music-choice" data-music="invidia">
+          <img src="https://i.ytimg.com/vi/TqehIIGc8Hc/hqdefault.jpg" alt="インヴィディア烈王国 BGM">
+          <div><strong>ゼノブレイド2：インヴィディア烈王国（昼）</strong><span>単曲BGMを音楽専用で再生</span></div>
+        </div>
+        <p>※インヴィディアは現在確認できた昼BGMを登録しています。</p>
+      </div>
+
     </div>
 
   </div>
@@ -705,6 +666,8 @@
 
   </div>
 
+
+<div id="audio-player-host" aria-hidden="true"></div>
 
 <script>
 
@@ -824,12 +787,6 @@
 
   const channelFilter =
     document.getElementById("channel-filter");
-
-  const includeShortsToggle =
-    document.getElementById("includeShortsToggle");
-
-  const shortsPreferenceKey = "multi_channel_include_shorts_scenic5";
-  let includeShorts = true;
 
 
   // =========================================================
@@ -1221,12 +1178,6 @@
 
   async function playVideoById(videoId) {
 
-    // 履歴・後で見るから、除外中の取得済みショートを選んだ場合は表示を戻す。
-    if (!includeShorts && videosData.some(v =>
-      v.videoId === videoId && v.shortCandidate)) {
-      setIncludeShorts(true);
-    }
-
     let element =
       videoMap.get(videoId);
 
@@ -1377,48 +1328,101 @@
   }
 
 
-  function playVideo(
-    videoId,
-    title,
-    videoItemElement
-  ) {
+  const audioPlayerHost = document.getElementById("audio-player-host");
+  let selectedBgm = "oot";
+  let playbackMode = "scenic";
 
-    if (!isValidVideoId(videoId)) return;
+  const bgmSources = {
+    oot: { type: "playlist", id: "PLFko1Qxl8kyd3f5bmYlDAIEMdLE3W6xny" },
+    invidia: { type: "video", id: "TqehIIGc8Hc" }
+  };
 
+  function startBackgroundMusic() {
+    audioPlayerHost.replaceChildren();
+    if (!selectedBgm || !bgmSources[selectedBgm]) return;
+    const source = bgmSources[selectedBgm];
     const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+    iframe.allow = "autoplay; encrypted-media";
+    iframe.title = "バックグラウンドBGM";
+    iframe.src = source.type === "playlist"
+      ? `https://www.youtube-nocookie.com/embed/videoseries?list=${encodeURIComponent(source.id)}&autoplay=1&controls=0&loop=1`
+      : `https://www.youtube-nocookie.com/embed/${encodeURIComponent(source.id)}?autoplay=1&controls=0&loop=1&playlist=${encodeURIComponent(source.id)}`;
+    audioPlayerHost.appendChild(iframe);
+  }
+
+  function stopBackgroundMusic() {
+    audioPlayerHost.replaceChildren();
+  }
+
+  function setBgmSource(source) {
+    selectedBgm = source;
+    document.querySelectorAll(".bgm-source[data-bgm]").forEach(button => {
+      button.classList.toggle("selected", button.dataset.bgm === source);
+    });
+    document.getElementById("bgmOffBtn").classList.toggle("selected", !source);
+    if (playbackMode === "scenic" && currentActive) startBackgroundMusic();
+  }
+
+  function setPlaybackMode(mode) {
+    playbackMode = mode;
+    document.body.classList.toggle("music-mode", mode === "music");
+    document.getElementById("scenicModeBtn").classList.toggle("selected", mode === "scenic");
+    document.getElementById("musicModeBtn").classList.toggle("selected", mode === "music");
+    if (mode === "music") {
+      stopBackgroundMusic();
+      player.replaceChildren();
+      if (currentActive) currentActive.classList.remove("active");
+      currentActive = null;
+      document.getElementById("modeHelp").textContent = "音楽専用モードです。下の曲を選ぶと、映像を表示せず音楽だけを再生します。";
+    } else {
+      document.getElementById("modeHelp").textContent = "絶景映像を選ぶと、選択中のゲームBGMをバックで再生します。音声の自動再生はブラウザ設定により制限される場合があります。";
+    }
+  }
+
+  function playMusicOnly(key) {
+    const source = bgmSources[key];
+    if (!source) return;
+    setBgmSource(key);
+    player.replaceChildren();
+    const iframe = document.createElement("iframe");
     iframe.allow = "autoplay; encrypted-media";
     iframe.allowFullscreen = true;
-    iframe.title = "YouTube 動画プレーヤー";
+    iframe.title = "ゲーム音楽プレーヤー";
+    iframe.src = source.type === "playlist"
+      ? `https://www.youtube-nocookie.com/embed/videoseries?list=${encodeURIComponent(source.id)}&autoplay=1&rel=0`
+      : `https://www.youtube-nocookie.com/embed/${encodeURIComponent(source.id)}?autoplay=1&rel=0`;
+    player.replaceChildren(iframe);
+  }
+
+  function playVideo(videoId, title, videoItemElement) {
+    if (!isValidVideoId(videoId) || playbackMode !== "scenic") return;
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1&controls=1`;
+    iframe.allow = "autoplay; encrypted-media";
+    iframe.allowFullscreen = true;
+    iframe.title = "絶景映像プレーヤー";
     player.replaceChildren(iframe);
 
-
-    if (currentActive) {
-
-      currentActive.classList.remove(
-        "active"
-      );
-
-    }
-
-
-    videoItemElement.classList.add(
-      "active"
-    );
-
-
-    currentActive =
-      videoItemElement;
-
-
-    saveHistory({
-
-      id: videoId,
-
-      title
-
-    });
+    if (currentActive) currentActive.classList.remove("active");
+    videoItemElement.classList.add("active");
+    currentActive = videoItemElement;
+    saveHistory({ id: videoId, title });
+    startBackgroundMusic();
   }
+
+  document.getElementById("scenicModeBtn").addEventListener("click", () => setPlaybackMode("scenic"));
+  document.getElementById("musicModeBtn").addEventListener("click", () => setPlaybackMode("music"));
+  document.querySelectorAll(".bgm-source[data-bgm]").forEach(button => {
+    button.addEventListener("click", () => setBgmSource(button.dataset.bgm));
+  });
+  document.getElementById("bgmOffBtn").addEventListener("click", () => {
+    selectedBgm = null;
+    document.querySelectorAll(".bgm-source").forEach(button => button.classList.remove("selected"));
+    if (currentActive) stopBackgroundMusic();
+  });
+  document.querySelectorAll(".music-choice").forEach(choice => {
+    choice.addEventListener("click", () => playMusicOnly(choice.dataset.music));
+  });
 
 
   async function copyLink(videoId, button) {
@@ -1460,30 +1464,7 @@
   // =========================================================
 
   function matchesShortsFilter(video) {
-    return includeShorts || !video.shortCandidate;
-  }
-
-  function setIncludeShorts(value) {
-    includeShorts = Boolean(value);
-    includeShortsToggle.checked = includeShorts;
-    try {
-      localStorage.setItem(shortsPreferenceKey, String(includeShorts));
-    } catch {
-      // 保存できない環境でも、表示の切り替えは続ける。
-    }
-    applyFilter();
-  }
-
-  function initShortsToggle() {
-    try {
-      includeShorts = localStorage.getItem(shortsPreferenceKey) !== "false";
-    } catch {
-      includeShorts = true;
-    }
-    includeShortsToggle.checked = includeShorts;
-    includeShortsToggle.addEventListener("change", () => {
-      setIncludeShorts(includeShortsToggle.checked);
-    });
+    return !video.shortCandidate;
   }
 
   function applyFilter() {
@@ -2584,8 +2565,6 @@
   // =========================================================
 
   async function main() {
-
-    initShortsToggle();
 
     loadingEl.textContent =
       "チャンネル情報を確認中...";
